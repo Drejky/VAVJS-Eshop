@@ -1,70 +1,36 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# 3. uloha (odovzdanie 6.12.)
+Urobte jednoduchu verziu e-shopu pre elektroniku. Pouzite DB system. Pouzite JS UI framework. Pouzite Docker a spravte jednoduche testy.
+ 
+**1**	|**DB a praca s nou v ramci JS**|**SUM 5**
+|-|-|-|
+a	|produkty	|1
+b	|objednavky	|2
+c	|zakaznici	|1
+d	|reklama a pocitadlo	|1
+**2**	|**rozhranie e-shopu**	|**SUM 10**
+a	|stranka produktov	|3
+b	|stranka objednavky	|3
+c	|podakovanie (reklama s pocitadlom)	|1
+d	|admin rozrhanie (tabulka objednavok so stavom a moznostou zmeny stavu, zmena reklami a zobrazenie stavu pocitadla)	|3
+**3**	|**Docker a testing**	|**SUM 5**
+a	|docker-compose a Dockerfiles	|1
+b	|end-to-end test objednavky (simulacia network callov a pouzite mocha)	|4
+**4**	|**Kosik**	|**SUM 5**
+a	|viac produktov	|2
+b	|viac kusov	|2
+c	|viac kusov a viac produktov	|1
+ 
+**DB** \
+RDB: MySQL, PostgreSQL, MariaDB, ??? - povoleny wrapper sequalize, inak sa opytajte (ziadne dokumentove DB, nie sqlite)\
+Produkty: id, nazov, obrazok, cena\
+Zakaznici: id, e-mail (unikatny), meno, ulica, cislo, mesto , psc\
+Objednavky: zakaznik+produkty + stav objednavky\
+Reklama: link,\
+Seed iba na produkty, 3ks - musia byt v JS "CREATE TABLE produkty", INSERT 3x produkty
+ 
+**Rozhranie**\
+JS framework Angular, React, Vue alebo Svelte\
+stranka produktov - zobrazit produkty: nazov, obrazok, cena, tlacidlo objednania\
+stranka objednavky - formular pre zadanie udajov objednavajuceho\
+podakovanie - stranka s "dakujeme za objednavku" a s reklamou s pocitadlom\
+stranka pre admina: tabulka objednavok (s ich obsahom) a s tlacidlom zaplatenia; reklama s moznostou zmeny linku a pocitadlo
