@@ -1,9 +1,24 @@
 const { sequelize } = require("./db");
+const { DataTypes } = require("sequelize");
 const product = require("./models/product");
 const order = require("./models/order");
 const buyer = require("./models/buyer");
 const add = require("./models/add");
 sequelize.drop();
+
+//Relations
+const product_order = sequelize.define(
+    "product_order",
+    {
+        ammount: DataTypes.INTEGER,
+    },
+    { timestamps: false }
+);
+product.belongsToMany(order, { through: product_order });
+order.belongsToMany(product, { through: product_order });
+buyer.hasMany(order);
+order.belongsTo(buyer);
+
 sequelize.sync({ force: true }).then(() => {
     //Source: https://unsplash.com/photos/8l9VxXI28tY
     product.create({

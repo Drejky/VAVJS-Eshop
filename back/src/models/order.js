@@ -12,8 +12,4 @@ const order = sequelize.define("order", {
     },
 });
 
-order.associate = (models) => {
-    order.belongsTo(models.buyer);
-};
-
 module.exports = order;

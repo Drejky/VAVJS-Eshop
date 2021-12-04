@@ -1,13 +1,21 @@
 const { app } = require("./app");
 const { sequelize } = require("./db.js");
+const { DataTypes } = require("sequelize");
 const product = require("./models/product.js");
 const order = require("./models/order.js");
 const buyer = require("./models/buyer");
 const add = require("./models/add");
 
 //Relations
-product.belongsToMany(order, { through: "product_order" });
-order.belongsToMany(product, { through: "product_order" });
+const product_order = sequelize.define(
+    "product_order",
+    {
+        ammount: DataTypes.INTEGER,
+    },
+    { timestamps: false }
+);
+product.belongsToMany(order, { through: product_order });
+order.belongsToMany(product, { through: product_order });
 buyer.hasMany(order);
 order.belongsTo(buyer);
 
@@ -20,18 +28,29 @@ app.get("/products", async (req, res) => {
 });
 
 app.get("/orders", async (req, res) => {
-    const orders = await order.findAll();
-    res.send(orders);
+    try {
+        const currOrder = await order.findAll({
+            include: [buyer, product],
+        });
+        res.send(currOrder);
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 app.post("/orders/:prID", async (req, res) => {
-    const order = await order.findAll({
+    const currOrder = await order.findOne({
         where: {
             id: req.params.prID,
         },
     });
+
+    currOrder.set({
+        state: "paid",
+    });
+    await currOrder.save();
     //Add code to change state of order
-    res.send(order);
+    res.send(currOrder);
 });
 
 //Most complicated enpoind
@@ -49,7 +68,7 @@ app.post("/orderThings", async (req, res) => {
     }
     //New user
     else {
-        currentBuyer = await buyer.create(req.body[0]);
+        currBuyer = await buyer.create(req.body[0]);
     }
 
     //Now create order
@@ -65,14 +84,12 @@ app.post("/orderThings", async (req, res) => {
         let tempProduct = await product.findOne({
             where: { id: req.body[i].id },
         });
-        currOrder.addProduct(tempProduct, {
+        await currOrder.addProduct(tempProduct, {
             through: { ammount: req.body[i].bought },
         });
     }
 
     console.log(currOrder);
-
-    //console.log(req.body);
     res.sendStatus(200);
 });
 
@@ -94,15 +111,7 @@ app.post("/img", async (req, res) => {
     res.send(curr);
 });
 
+//debugging endpoint
 app.get("/", async (req, res) => {
-    buyer.hasMany(order);
-    order.belongsTo(buyer);
-    let uwu = await order.findOne({ include: buyer });
-    let owo = await buyer.findOne();
-    let foo = await product.findOne();
-    //console.log(Object.keys(order.prototype.setbuyer));
-    console.log(uwu);
-    uwu.getBuyer();
-
-    res.send(uwu);
+    res.send("It works");
 });

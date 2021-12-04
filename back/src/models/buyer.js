@@ -30,8 +30,4 @@ const buyer = sequelize.define("buyer", {
     },
 });
 
-buyer.associate = (models) => {
-    buyer.hasMany(models.order);
-};
-
 module.exports = buyer;
