@@ -14,10 +14,10 @@ const product_order = sequelize.define(
     },
     { timestamps: false }
 );
-product.belongsToMany(order, { through: product_order });
-order.belongsToMany(product, { through: product_order });
-buyer.hasMany(order);
-order.belongsTo(buyer);
+product.belongsToMany(order, { through: product_order, onDelete: "cascade" });
+order.belongsToMany(product, { through: product_order, onDelete: "cascade" });
+buyer.hasMany(order, { onDelete: "cascade" });
+order.belongsTo(buyer, { onDelete: "cascade" });
 
 //setproducts
 //setorders
@@ -113,5 +113,10 @@ app.post("/img", async (req, res) => {
 
 //debugging endpoint
 app.get("/", async (req, res) => {
-    res.send("It works");
+    try {
+        await sequelize.authenticate();
+        console.log("Connection has been established successfully.");
+    } catch (error) {
+        console.error("Unable to connect to the database:", error);
+    }
 });
