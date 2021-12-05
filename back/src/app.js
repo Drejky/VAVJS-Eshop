@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 dotenv.config();
-const testo = require("./routes/testo");
 const add = require("./routes/add");
 const order = require("./routes/order");
 const product = require("./routes/product");
@@ -14,7 +13,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.route("/testo").get(testo.getTest);
 app.route("/img").get(add.getImg).post(add.postImg);
 app.route("/addCount").post(add.addCount);
 app.route("/orders").get(order.getOrders);

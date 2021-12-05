@@ -60,7 +60,7 @@ export default function Admin(props) {
                 }}
                 alt="Le add"
             />
-            <ul className="d-flex flex-col ">
+            <ul className="d-flex flex-wrap ">
                 {orders.map((order) => (
                     <OrderCard
                         state={order.state}
