@@ -4,9 +4,10 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "nodemon src/index.js",
-        "start": "npm run migrate && node src/index.js",
-        "migrate": "node src/migrate.js"
+        "dev": "nodemon src/app.js",
+        "start": "npm run migrate && node src/app.js",
+        "migrate": "node src/migrate.js",
+        "test": "node ./node_modules/mocha/bin/mocha"
     },
     "author": "",
     "license": "ISC",

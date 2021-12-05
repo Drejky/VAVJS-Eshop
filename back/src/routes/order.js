@@ -1,11 +1,8 @@
-const { app } = require("./app");
-const { sequelize } = require("./db.js");
+const { sequelize } = require("../db");
 const { DataTypes } = require("sequelize");
-const product = require("./models/product.js");
-const order = require("./models/order.js");
-const buyer = require("./models/buyer");
-const add = require("./models/add");
-
+const order = require("../models/order");
+const product = require("../models/product");
+const buyer = require("../models/buyer");
 //Relations
 const product_order = sequelize.define(
     "product_order",
@@ -19,15 +16,7 @@ order.belongsToMany(product, { through: product_order, onDelete: "cascade" });
 buyer.hasMany(order, { onDelete: "cascade" });
 order.belongsTo(buyer, { onDelete: "cascade" });
 
-//setproducts
-//setorders
-
-app.get("/products", async (req, res) => {
-    const products = await product.findAll();
-    res.send(products);
-});
-
-app.get("/orders", async (req, res) => {
+const getOrders = async (req, res) => {
     try {
         const currOrder = await order.findAll({
             include: [buyer, product],
@@ -36,9 +25,8 @@ app.get("/orders", async (req, res) => {
     } catch (err) {
         console.log(err);
     }
-});
-
-app.post("/orders/:prID", async (req, res) => {
+};
+const payOrder = async (req, res) => {
     const currOrder = await order.findOne({
         where: {
             id: req.params.prID,
@@ -51,10 +39,9 @@ app.post("/orders/:prID", async (req, res) => {
     await currOrder.save();
     //Add code to change state of order
     res.send(currOrder);
-});
+};
 
-//Most complicated enpoind
-app.post("/orderThings", async (req, res) => {
+const orderThings = async (req, res) => {
     //First check if email already belongs to someone
     //Because there is no login system and email field must be unique
     //I decided to always write the newest order user information down
@@ -89,34 +76,7 @@ app.post("/orderThings", async (req, res) => {
         });
     }
 
-    console.log(currOrder);
     res.sendStatus(200);
-});
+};
 
-app.post("/addCount", async (req, res) => {
-    const curr = await add.findOne();
-    await curr.increment("clickCount", { by: 1 });
-    res.sendStatus(200);
-});
-
-app.get("/img", async (req, res) => {
-    const curr = await add.findOne();
-    res.send(curr);
-});
-
-app.post("/img", async (req, res) => {
-    const curr = await add.findOne();
-    console.log(req.body);
-    curr.update({ image: req.body.image });
-    res.send(curr);
-});
-
-//debugging endpoint
-app.get("/", async (req, res) => {
-    try {
-        await sequelize.authenticate();
-        console.log("Connection has been established successfully.");
-    } catch (error) {
-        console.error("Unable to connect to the database:", error);
-    }
-});
+module.exports = { getOrders, payOrder, orderThings };

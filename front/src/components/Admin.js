@@ -26,7 +26,7 @@ export default function Admin(props) {
     const submitButton = () => {
         const newUrl = { image: document.getElementById("imgURLin").value };
         console.log(newUrl);
-        fetch("http://localhost:8080/addImg", {
+        fetch("http://localhost:8080/Img", {
             method: "POST",
             body: JSON.stringify(newUrl),
             headers: {
